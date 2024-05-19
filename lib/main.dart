@@ -15,6 +15,7 @@ void main() => runApp(
         Scaffold(
             body: Column(
               children: [
+                // Expanded(child: Board(),),
                 Board(),
                 ScoreDice(),
               ],

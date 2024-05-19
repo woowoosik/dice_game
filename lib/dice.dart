@@ -79,9 +79,12 @@ class _Dice extends State<Dice> with TickerProviderStateMixin {
     );
 
     animationX =
-        Tween<double>(begin: beginX, end: endX).animate(animationController);
+        Tween<double>(begin: 0, end: endX).animate(animationController);
     animationY =
-        Tween<double>(begin: beginY, end: endY).animate(animationController);
+        Tween<double>(begin: 0, end: endY).animate(animationController);
+
+    diceRoll();
+
 
 /*
 
@@ -107,7 +110,7 @@ class _Dice extends State<Dice> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
 
     mapXsize = MediaQuery.sizeOf(context).width ;
-    mapYsize = MediaQuery.sizeOf(context).height * 0.75;
+    mapYsize = MediaQuery.sizeOf(context).height * 0.85;
 
 
     Logger().d('map size  $mapXsize  $mapYsize');
@@ -151,134 +154,7 @@ class _Dice extends State<Dice> with TickerProviderStateMixin {
       // Cube
       GestureDetector(
         onDoubleTap: () {
-          animationController.repeat();
-          animationController.reset();
-     /*     moveAnimationController.repeat();
-          moveAnimationController.reset();*/
-          Logger().d("onTap");
-          setState(() {
-            Logger().d('$beginX  $beginY');
-
-            endX = Random().nextDouble() * pi * 6;
-            endY = Random().nextDouble() * pi * 6;
-
-            Logger().d('end nomal value : $endX  $endY');
-
-            Logger().e('end nomal value % : 1:  0 ~ 0.7535 || 5.5265 ~ 6.28 ');
-            Logger().e('end nomal value % : 6:  2.3235 ~ 3.89 ');
-            Logger().e(
-                'end nomal value % : ${endX % (pi * 2)}  ${endY % (pi * 2)}');
-
-            var s = front(endX % (pi * 2), endY % (pi * 2),
-                (-(pi / 2) + endY) % (pi * 2));
-
-            //var controller = Get.put(Controller());
-            Logger().d('${widget.index}/ 15');
-            controller.changeDice(widget.index , s);
-            // var s= diceFront(widget.x,widget.y,-_halfPi + widget.y, _topBottom, _northSouth, _eastWest);
-
-            if (s == 1) {
-              Logger().e('end 1 : ${endX % (pi * 2)}  ${endY % (pi * 2)}');
-              if (0 <= endX % (pi * 2) && endX % (pi * 2) < (pi / 2) / 2) {
-                endX = endX - endX % (pi * 2) + pi * 2 + padding;
-              } else {
-                endX = endX - endX % (pi * 2) + pi * 2 - padding;
-              }
-              // x 0
-            } else if (s == 6) {
-              Logger().e('end 6 : ${endX % (pi * 2)}  ${endY % (pi * 2)}');
-              if (endX <= pi) {
-                endX = endX - endX % (pi * 2) + pi + pi * 2 - padding;
-              } else {
-                endX = endX - endX % (pi * 2) + pi + pi * 2 + padding;
-              }
-            } else {
-              Logger().e('end else : $s');
-
-              endX = endX - endX % (pi * 2) + pi * 2;
-              if (0 <= endX % (pi * 2) && endX % (pi * 2) < pi - (pi / 2)) {
-                endX += (pi / 2 - padding);
-                //animationX = Tween<double>(begin: beginX, end: pi/2-padding).animate(animationController);
-              } else if (pi / 2 <= endX % (pi * 2) &&
-                  endX % (pi * 2) < pi + pi / 2) {
-                endX += (pi / 2 + padding);
-                //animationX = Tween<double>(begin: beginX, end: pi/2+padding).animate(animationController);
-              } else if (pi + pi / 2 <= endX % (pi * 2) &&
-                  endX % (pi * 2) < pi + pi + pi / 2) {
-                endX += (pi + pi / 2 + padding);
-                //animationX = Tween<double>(begin: beginX, end: pi + pi/2+padding).animate(animationController);
-              } else if (pi + 0 <= endX % (pi * 2) &&
-                  endX % (pi * 2) < pi + pi - (pi / 2)) {
-                endX += (pi + pi / 2 - padding);
-                //animationX = Tween<double>(begin: beginX, end: pi + pi/2-padding).animate(animationController);
-              }
-
-              if (s == 2) {
-                Logger().e(
-                    'end 2 : ${endX % (pi * 2)}  ${endY % (pi * 2)}  ${endY + endY % (pi * 2) + pi}');
-                // y 0
-                if (endY < pi) {
-                  endY = endY - endY % (pi * 2) + pi * 2 + padding;
-                } else {
-                  endY = endY - endY % (pi * 2) + pi * 2 - padding;
-                }
-              } else if (s == 3) {
-                Logger().e(
-                    'end 3 : ${endX % (pi * 2)}  ${endY % (pi * 2)} ${endY + endY % (pi * 2) + pi + pi / 2}');
-                // pi/2
-                if (endY <= pi / 2) {
-                  endY = endY - endY % (pi * 2) + pi / 2 + pi * 2 - padding;
-                } else {
-                  endY = endY - endY % (pi * 2) + pi / 2 + pi * 2 + padding;
-                }
-              } else if (s == 4) {
-                Logger().e(
-                    'end 4 : ${endX % (pi * 2)}  ${endY % (pi * 2)}  ${endY + endY % (pi * 2) + pi / 2}');
-                // pi3/2
-                if (endY <= (pi + pi / 2)) {
-                  endY =
-                      endY - endY % (pi * 2) + pi + pi / 2 + pi * 2 - padding;
-                } else {
-                  endY =
-                      endY - endY % (pi * 2) + pi + pi / 2 + pi * 2 + padding;
-                }
-              } else if (s == 5) {
-                Logger().e(
-                    'end 5 : ${endX % (pi * 2)}  ${endY % (pi * 2)} ${endY + endY % (pi * 2)}');
-                //pi
-                if (endY <= pi) {
-                  endY = endY - endY % (pi * 2) + pi + pi * 2 - padding;
-                } else {
-                  endY = endY - endY % (pi * 2) + pi + pi * 2 + padding;
-                }
-              }
-            }
-
-            animationX = Tween<double>(begin: beginX, end: endX)
-                .animate(animationController);
-            animationY = Tween<double>(begin: beginY, end: endY)
-                .animate(animationController);
-
-
-         /*   moveAnimationY =
-                Tween<double>(begin: beginX, end: endX).animate(moveAnimationController);
-            moveAnimationX =
-                Tween<double>(begin: beginY, end: endY).animate(moveAnimationController);
-*/
-
-            beginX = endX;
-            beginY = endY;
-
-            if (animationController.isDismissed) {
-              animationController.forward();
-             // moveAnimationController.forward();
-            } else if (animationController.isCompleted) {
-              animationController.forward();
-             // moveAnimationController.forward();
-            } else {
-              Logger().e('else');
-            }
-          });
+          diceRoll();
         },
         /*         onPanUpdate: (DragUpdateDetails u) => setState((){
                       _x = (_x + -u.delta.dy / 150) % (pi * 2);
@@ -287,9 +163,9 @@ class _Dice extends State<Dice> with TickerProviderStateMixin {
         child: Padding(
           padding: EdgeInsets.fromLTRB(
             _diceWidth(animationY.value * 25 + widget.x) - _size,
-            _diceHeight(animationX.value * 45 + widget.y) - _size,
+            _diceHeight(animationX.value * 50 + widget.y) - _size,
             mapXsize - _diceWidth(animationY.value * 25 + widget.x),
-            mapYsize - _diceHeight(animationX.value * 45 + widget.y),
+            mapYsize - _diceHeight(animationX.value * 50 + widget.y),
           ),
           child: Container(
             /*  height: _diceHeight(animationX.value * 20),*/
@@ -313,6 +189,138 @@ class _Dice extends State<Dice> with TickerProviderStateMixin {
 
 
   }
+
+  void diceRoll(){
+    animationController.repeat();
+    animationController.reset();
+    /*     moveAnimationController.repeat();
+          moveAnimationController.reset();*/
+    Logger().d("onTap");
+    setState(() {
+      Logger().d('$beginX  $beginY');
+
+      endX = Random().nextDouble() * pi * 6;
+      endY = Random().nextDouble() * pi * 6;
+
+      Logger().d('end nomal value : $endX  $endY');
+
+      Logger().e('end nomal value % : 1:  0 ~ 0.7535 || 5.5265 ~ 6.28 ');
+      Logger().e('end nomal value % : 6:  2.3235 ~ 3.89 ');
+      Logger().e(
+          'end nomal value % : ${endX % (pi * 2)}  ${endY % (pi * 2)}');
+
+      var s = front(endX % (pi * 2), endY % (pi * 2),
+          (-(pi / 2) + endY) % (pi * 2));
+
+      //var controller = Get.put(Controller());
+      Logger().d('${widget.index}/ 15');
+      controller.changeDice(widget.index , s);
+      // var s= diceFront(widget.x,widget.y,-_halfPi + widget.y, _topBottom, _northSouth, _eastWest);
+
+      if (s == 1) {
+        Logger().e('end 1 : ${endX % (pi * 2)}  ${endY % (pi * 2)}');
+        if (0 <= endX % (pi * 2) && endX % (pi * 2) < (pi / 2) / 2) {
+          endX = endX - endX % (pi * 2) + pi * 2 + padding;
+        } else {
+          endX = endX - endX % (pi * 2) + pi * 2 - padding;
+        }
+        // x 0
+      } else if (s == 6) {
+        Logger().e('end 6 : ${endX % (pi * 2)}  ${endY % (pi * 2)}');
+        if (endX <= pi) {
+          endX = endX - endX % (pi * 2) + pi + pi * 2 - padding;
+        } else {
+          endX = endX - endX % (pi * 2) + pi + pi * 2 + padding;
+        }
+      } else {
+        Logger().e('end else : $s');
+
+        endX = endX - endX % (pi * 2) + pi * 2;
+        if (0 <= endX % (pi * 2) && endX % (pi * 2) < pi - (pi / 2)) {
+          endX += (pi / 2 - padding);
+          //animationX = Tween<double>(begin: beginX, end: pi/2-padding).animate(animationController);
+        } else if (pi / 2 <= endX % (pi * 2) &&
+            endX % (pi * 2) < pi + pi / 2) {
+          endX += (pi / 2 + padding);
+          //animationX = Tween<double>(begin: beginX, end: pi/2+padding).animate(animationController);
+        } else if (pi + pi / 2 <= endX % (pi * 2) &&
+            endX % (pi * 2) < pi + pi + pi / 2) {
+          endX += (pi + pi / 2 + padding);
+          //animationX = Tween<double>(begin: beginX, end: pi + pi/2+padding).animate(animationController);
+        } else if (pi + 0 <= endX % (pi * 2) &&
+            endX % (pi * 2) < pi + pi - (pi / 2)) {
+          endX += (pi + pi / 2 - padding);
+          //animationX = Tween<double>(begin: beginX, end: pi + pi/2-padding).animate(animationController);
+        }
+
+        if (s == 2) {
+          Logger().e(
+              'end 2 : ${endX % (pi * 2)}  ${endY % (pi * 2)}  ${endY + endY % (pi * 2) + pi}');
+          // y 0
+          if (endY < pi) {
+            endY = endY - endY % (pi * 2) + pi * 2 + padding;
+          } else {
+            endY = endY - endY % (pi * 2) + pi * 2 - padding;
+          }
+        } else if (s == 3) {
+          Logger().e(
+              'end 3 : ${endX % (pi * 2)}  ${endY % (pi * 2)} ${endY + endY % (pi * 2) + pi + pi / 2}');
+          // pi/2
+          if (endY <= pi / 2) {
+            endY = endY - endY % (pi * 2) + pi / 2 + pi * 2 - padding;
+          } else {
+            endY = endY - endY % (pi * 2) + pi / 2 + pi * 2 + padding;
+          }
+        } else if (s == 4) {
+          Logger().e(
+              'end 4 : ${endX % (pi * 2)}  ${endY % (pi * 2)}  ${endY + endY % (pi * 2) + pi / 2}');
+          // pi3/2
+          if (endY <= (pi + pi / 2)) {
+            endY =
+                endY - endY % (pi * 2) + pi + pi / 2 + pi * 2 - padding;
+          } else {
+            endY =
+                endY - endY % (pi * 2) + pi + pi / 2 + pi * 2 + padding;
+          }
+        } else if (s == 5) {
+          Logger().e(
+              'end 5 : ${endX % (pi * 2)}  ${endY % (pi * 2)} ${endY + endY % (pi * 2)}');
+          //pi
+          if (endY <= pi) {
+            endY = endY - endY % (pi * 2) + pi + pi * 2 - padding;
+          } else {
+            endY = endY - endY % (pi * 2) + pi + pi * 2 + padding;
+          }
+        }
+      }
+
+      animationX = Tween<double>(begin: beginX, end: endX)
+          .animate(animationController);
+      animationY = Tween<double>(begin: beginY, end: endY)
+          .animate(animationController);
+
+
+      /*   moveAnimationY =
+                Tween<double>(begin: beginX, end: endX).animate(moveAnimationController);
+            moveAnimationX =
+                Tween<double>(begin: beginY, end: endY).animate(moveAnimationController);
+*/
+
+      beginX = endX;
+      beginY = endY;
+
+      if (animationController.isDismissed) {
+        animationController.forward();
+        // moveAnimationController.forward();
+      } else if (animationController.isCompleted) {
+        animationController.forward();
+        // moveAnimationController.forward();
+      } else {
+        Logger().e('else');
+      }
+    });
+  }
+
 
   dynamic _diceWidth(dynamic y) {
     Logger().d("_diceWidth ${y} >= ${(mapXsize - _size )}");
