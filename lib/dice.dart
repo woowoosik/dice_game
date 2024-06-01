@@ -109,11 +109,20 @@ class _Dice extends State<Dice> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
 
+
+    var padding = MediaQuery.paddingOf(context).top;
+
     mapXsize = MediaQuery.sizeOf(context).width ;
-    mapYsize = MediaQuery.sizeOf(context).height * 0.85;
+    mapYsize = MediaQuery.sizeOf(context).height * 0.8;
 
+ /*   var x =30.0;
+    var xx = _width(animationY.value *x + widget.x) - _size;
+    var xxx = 30*n + 90;*/
+    var x = (mapXsize*3 -widget.x)/30;
+    var y = (mapYsize*3 -widget.y)/30;
+    // var y =70.0;
 
-    Logger().d('map size  $mapXsize  $mapYsize');
+   // Logger().d('map size  $mapXsize  $mapYsize');
     animationController.addListener(() {
       setState(() {
       });
@@ -156,20 +165,46 @@ class _Dice extends State<Dice> with TickerProviderStateMixin {
         onDoubleTap: () {
           diceRoll();
         },
-        /*         onPanUpdate: (DragUpdateDetails u) => setState((){
-                      _x = (_x + -u.delta.dy / 150) % (pi * 2);
-                      _y = (_y + -u.delta.dx / 150) % (pi * 2);
-                    }),*/
+
         child: Padding(
           padding: EdgeInsets.fromLTRB(
-            _diceWidth(animationY.value * 25 + widget.x) - _size,
-            _diceHeight(animationX.value * 50 + widget.y) - _size,
-            mapXsize - _diceWidth(animationY.value * 25 + widget.x),
-            mapYsize - _diceHeight(animationX.value * 50 + widget.y),
+
+/*
+
+            _diceWidth(_width(animationY.value  *55   + widget.x ) ) - _size,
+            _diceHeight(animationX.value   *5  + widget.y )  - _size,
+            mapXsize - _diceWidth(_width(animationY.value   *55  + widget.x) )  ,
+            mapYsize - _diceHeight(animationX.value   *5   + widget.y ) ,
+*/
+
+
+          /*    animationY.value + (_size),
+              animationX.value + (_size),
+              animationY.value + (_size*2),
+              animationX.value + (_size*2),*/
+
+           /* _width(animationY.value * 20 + widget.x) ,  // 0 ~ 310(360)
+            _height(animationX.value * 20 + widget.y) ,  //0 ~770(820)
+            _width(animationY.value * 20 + widget.x) +_size, // 50~360
+            _height(animationX.value * 20 + widget.y) +_size, // 50~ 820
+*/
+
+        /*
+            _diceWidth(_width(animationY.value  *25   + widget.x ) ) - _size,
+            _diceHeight(animationX.value   *5  + widget.y )  - _size,
+            mapXsize - _diceWidth(_width(animationY.value   *25  + widget.x) )  ,
+            mapYsize - _diceHeight(animationX.value   *5   + widget.y ) ,
+*/
+
+            _width(animationY.value *x + widget.x) - _size,
+            _height(animationX.value  *y  + widget.y) -_size ,
+            mapXsize - _width(animationY.value *x + widget.x) ,
+            mapYsize - _height(animationX.value  *y  + widget.y) ,
+
           ),
           child: Container(
-            /*  height: _diceHeight(animationX.value * 20),*/
-           // width: _diceWidth(animationY.value * 20),
+         /*     height: _diceHeight(animationX.value * 20),
+            width: _diceWidth(animationY.value * 20),*/
             child: Cube(
               x: (animationX.value) % (pi * 2),
               y: (animationY.value) % (pi * 2),
@@ -190,17 +225,246 @@ class _Dice extends State<Dice> with TickerProviderStateMixin {
 
   }
 
+  dynamic _width(dynamic y) {
+    Logger().d(' y :  ${beginY*50 + widget.x}  ${endY*50 + widget.x}');
+    Logger().d("_diceWidth ${y} >= ${(mapXsize - _size )}");
+    Logger().d("_diceWidth  ${mapXsize} ");
+    if (y >= (mapXsize )) {
+      Logger().d("_diceWidth 1 ${mapXsize}    padding ${mapXsize - (mapXsize - (y - mapXsize))}    mapXsize - ${mapXsize - (y - mapXsize)}");
+      // var w = mapXsize - (y - mapXsize);
+
+
+      if(y >= (mapXsize*2 - _size)){
+        Logger(). d("_diceWidth 1-1 ${mapXsize}    padding  ${y - mapXsize*2}    ${ (y - mapXsize*2 ) + _size}");
+
+        return (y - mapXsize*2 ) + _size*2;
+      }
+     /* if(mapXsize - (mapXsize - (y - mapXsize)) >= mapXsize){
+        Logger(). d("_diceWidth 1-1 ${mapXsize}    padding ${mapXsize - (mapXsize - (y - mapXsize))}   ${y - mapXsize*2}");
+        return y - mapXsize*2;
+      }*/
+
+      return mapXsize - (y - mapXsize);
+    }else if ( y < _size ) {
+      Logger().d("_diceWidth 2 ${mapXsize + _size}    padding ${_size - y + _size} ");
+      //var w = _size - y;
+      return _size - y + _size;
+      //return _size ;
+    }else{
+      Logger().d("_diceWidth 3 ${y}      padding ${y} ");
+      return y;
+    }
+
+  }
+
+  dynamic _height(dynamic x) {
+
+    Logger().d(' x :  ${beginX*50 + widget.y}  ${endX*50 + widget.y}');
+    Logger().d("_diceHeight ${x} >= ${(mapYsize - _size )}");
+    Logger().d("_diceHeight ${mapYsize}  ");
+    if (x >= (mapYsize )) {
+      Logger().d("_diceHeight 1 ${mapYsize}  ${mapYsize - ( x - mapYsize)}     padding ${mapXsize - (mapYsize - ( x - mapYsize))} ");
+
+
+      if(x >= (mapYsize*2 - _size)){
+        Logger(). d("_diceHeight 1-1 ${mapYsize}    padding  ${x - mapYsize*2}    ${ (x - mapYsize*2 ) + _size*2}");
+
+        return (x - mapYsize*2 ) + _size*2;
+      }
+
+      return mapYsize - ( x - mapYsize);
+    }else if (x < _size ) {
+      Logger().d("_diceHeight 2 ${mapYsize + _size}     padding ${_size -x +_size} ");
+      return _size -x +_size ;
+    }else{
+      Logger().d("_diceHeight 3 $x     padding ${x} ");
+      return x;
+    }
+
+  }
+
+
+/*
+
+  double _width(double x){
+
+    var xx = x%mapXsize;
+
+
+    var pm = 1;
+
+
+
+
+
+
+
+
+    if(x>= mapXsize){
+
+    */
+/*  if(xx >= mapXsize-1){
+        Logger().e(' @ ${mapXsize - (xx - mapXsize)}     $x  $xx');
+        return mapXsize - (xx - mapXsize);
+      }
+*//*
+
+
+
+
+
+      Logger().e(' !  ${mapXsize-10}  <= $xx                     $x  $xx');
+
+      if(beginY > endY){
+        // 작아짐
+        Logger().e(' # 작아짐     $x  $xx');
+        return mapXsize-xx;
+      }else{
+        // 커짐
+        if(mapXsize-10 <= xx  ){
+          Logger().e(' @ $xx == 0     $x  $xx');
+
+
+          return mapXsize - (xx - mapXsize);
+
+        }else{
+          Logger().e(' # $xx !=0     $x  $xx');
+          return xx;
+        }
+
+
+
+      }
+
+      if(xx <= _size){
+        Logger().e(' # ${xx  + _size}            ${mapXsize - (mapXsize - xx)}      $x  $xx');
+
+        return xx  + _size ;
+      }
+
+      return mapXsize - (xx - mapXsize);
+
+
+    }*/
+/*else{
+      if(xx <= _size){
+        Logger().e(' % ${(mapXsize)} - $xx     $x  $xx');
+        return xx  + _size;
+      }
+
+    }*//*
+
+
+
+    if(x <= _size){
+
+      Logger().e(' ^ $xx     $x  $xx');
+      return x+ _size;
+    }
+
+    Logger().e(' ^ $xx     $x  $xx');
+    return x;
+
+
+
+  }
+*/
+
+
+  dynamic _diceWidth(dynamic y) {
+    //Logger().d("_diceWidth ${y}  ${animationY.value}");
+   // Logger().d("_diceWidth ${mapXsize} ");
+    //var y = yy > mapXsize*2 ? yy/2 : yy;
+
+    if (y >= (mapXsize )) {
+
+      //return (mapXsize - (y - mapXsize) );
+
+     // Logger().d("_diceWidth ! ${mapXsize}  ");
+      if(y/mapXsize >=2 ){
+       // Logger().d("_diceWidth  y/mapXsize >=2 ! ${mapXsize}  ");
+        return y%mapXsize + _size;
+      }else{
+      //  Logger().d("_diceWidth y/mapXsize < 2 ! ${mapXsize}  ");
+        return (mapXsize - (y - mapXsize) ) <= _size ? (mapXsize - (y - mapXsize) ) +_size : (mapXsize - (y - mapXsize) );
+      }
+
+
+    /*  Logger().d("_diceWidth ! ${mapXsize}  ");
+      // var w = mapXsize - (y - mapXsize);
+      if(mapXsize - (y - mapXsize)  > mapXsize){
+        return y%mapXsize;
+      }else{
+        return mapXsize - (y - mapXsize);
+      }
+*/
+    }else if (y <= _size ) {
+     // Logger().d("_diceWidth @ ${mapXsize + _size}   ");
+      //var w = _size - y;
+      return _size - y + _size;
+      //return _size ;
+    }else{
+     // Logger().d("_diceWidth # ${y}");
+      return y;
+    }
+
+  }
+
+  dynamic _diceHeight(dynamic x) {
+
+
+  /*  if( x <= MediaQuery.paddingOf(context).top){
+      Logger().e(" MediaQuery.paddingOf(context).top ");
+    }
+    Logger().d("_diceHeight  ${animationX.value }  ${animationX.value * 35  }  ${widget.y}  ${(animationX.value * 35 )+ widget.y}");
+    Logger().d("_diceHeight ${x} ${widget.x} >= ${(mapYsize - _size )}");
+    Logger().d("_diceHeight ${mapYsize}  ${( x - mapYsize)}");*/
+    if (x >= (mapYsize )) {
+    /*  Logger().d("_diceHeight ! ${mapYsize} ${mapYsize - ( x - mapYsize)} ");
+
+      Logger().d("_diceHeight ! ${mapYsize}  ");*/
+      if(x/mapYsize >=2 ){
+       // Logger().e("_diceHeight  y/mapYsize >=2 ! ${x%mapYsize}  ");
+        return x%mapYsize +_size;
+      }else{
+       // Logger().d("_diceHeight y/mapYsize < 2 ! ${mapYsize}  ");
+        return (mapYsize - (x - mapYsize) ) <= _size ?(mapYsize - (x - mapYsize) ) +_size : (mapYsize - (x - mapYsize) );
+       // return mapYsize - (x - mapYsize);
+      }
+
+
+/*      if(mapYsize - ( x - mapYsize) < 0){
+
+        Logger().d("_diceHeight 1 ${x%mapYsize} ");
+        return x%mapYsize + MediaQuery.paddingOf(context).top;
+      }else{
+        return mapYsize - ( x - mapYsize);
+      }*/
+
+    }else if (x <= _size ) {
+     // Logger().d("_diceHeight @ ${mapYsize + _size}  ");
+      return _size -x +_size ;
+    }
+
+    //Logger().d("_diceHeight 3 $x");
+    return x;
+  }
+
+
+
+
   void diceRoll(){
     animationController.repeat();
     animationController.reset();
     /*     moveAnimationController.repeat();
           moveAnimationController.reset();*/
-    Logger().d("onTap");
+    //Logger().d("onTap");
     setState(() {
-      Logger().d('$beginX  $beginY');
+     // Logger().d('$beginX  $beginY');
 
       endX = Random().nextDouble() * pi * 6;
       endY = Random().nextDouble() * pi * 6;
+/*
 
       Logger().d('end nomal value : $endX  $endY');
 
@@ -208,17 +472,18 @@ class _Dice extends State<Dice> with TickerProviderStateMixin {
       Logger().e('end nomal value % : 6:  2.3235 ~ 3.89 ');
       Logger().e(
           'end nomal value % : ${endX % (pi * 2)}  ${endY % (pi * 2)}');
+*/
 
       var s = front(endX % (pi * 2), endY % (pi * 2),
           (-(pi / 2) + endY) % (pi * 2));
 
       //var controller = Get.put(Controller());
-      Logger().d('${widget.index}/ 15');
+     // Logger().d('${widget.index}/ 15');
       controller.changeDice(widget.index , s);
       // var s= diceFront(widget.x,widget.y,-_halfPi + widget.y, _topBottom, _northSouth, _eastWest);
 
       if (s == 1) {
-        Logger().e('end 1 : ${endX % (pi * 2)}  ${endY % (pi * 2)}');
+       // Logger().e('end 1 : ${endX % (pi * 2)}  ${endY % (pi * 2)}');
         if (0 <= endX % (pi * 2) && endX % (pi * 2) < (pi / 2) / 2) {
           endX = endX - endX % (pi * 2) + pi * 2 + padding;
         } else {
@@ -226,14 +491,14 @@ class _Dice extends State<Dice> with TickerProviderStateMixin {
         }
         // x 0
       } else if (s == 6) {
-        Logger().e('end 6 : ${endX % (pi * 2)}  ${endY % (pi * 2)}');
+      //  Logger().e('end 6 : ${endX % (pi * 2)}  ${endY % (pi * 2)}');
         if (endX <= pi) {
           endX = endX - endX % (pi * 2) + pi + pi * 2 - padding;
         } else {
           endX = endX - endX % (pi * 2) + pi + pi * 2 + padding;
         }
       } else {
-        Logger().e('end else : $s');
+       // Logger().e('end else : $s');
 
         endX = endX - endX % (pi * 2) + pi * 2;
         if (0 <= endX % (pi * 2) && endX % (pi * 2) < pi - (pi / 2)) {
@@ -254,8 +519,8 @@ class _Dice extends State<Dice> with TickerProviderStateMixin {
         }
 
         if (s == 2) {
-          Logger().e(
-              'end 2 : ${endX % (pi * 2)}  ${endY % (pi * 2)}  ${endY + endY % (pi * 2) + pi}');
+        /*  Logger().e(
+              'end 2 : ${endX % (pi * 2)}  ${endY % (pi * 2)}  ${endY + endY % (pi * 2) + pi}');*/
           // y 0
           if (endY < pi) {
             endY = endY - endY % (pi * 2) + pi * 2 + padding;
@@ -263,18 +528,18 @@ class _Dice extends State<Dice> with TickerProviderStateMixin {
             endY = endY - endY % (pi * 2) + pi * 2 - padding;
           }
         } else if (s == 3) {
-          Logger().e(
+         /* Logger().e(
               'end 3 : ${endX % (pi * 2)}  ${endY % (pi * 2)} ${endY + endY % (pi * 2) + pi + pi / 2}');
-          // pi/2
+         */ // pi/2
           if (endY <= pi / 2) {
             endY = endY - endY % (pi * 2) + pi / 2 + pi * 2 - padding;
           } else {
             endY = endY - endY % (pi * 2) + pi / 2 + pi * 2 + padding;
           }
         } else if (s == 4) {
-          Logger().e(
+        /*  Logger().e(
               'end 4 : ${endX % (pi * 2)}  ${endY % (pi * 2)}  ${endY + endY % (pi * 2) + pi / 2}');
-          // pi3/2
+         */ // pi3/2
           if (endY <= (pi + pi / 2)) {
             endY =
                 endY - endY % (pi * 2) + pi + pi / 2 + pi * 2 - padding;
@@ -283,9 +548,9 @@ class _Dice extends State<Dice> with TickerProviderStateMixin {
                 endY - endY % (pi * 2) + pi + pi / 2 + pi * 2 + padding;
           }
         } else if (s == 5) {
-          Logger().e(
+       /*   Logger().e(
               'end 5 : ${endX % (pi * 2)}  ${endY % (pi * 2)} ${endY + endY % (pi * 2)}');
-          //pi
+       */   //pi
           if (endY <= pi) {
             endY = endY - endY % (pi * 2) + pi + pi * 2 - padding;
           } else {
@@ -293,6 +558,8 @@ class _Dice extends State<Dice> with TickerProviderStateMixin {
           }
         }
       }
+
+     // Logger().e('endx  $endX    endy  $endY');
 
       animationX = Tween<double>(begin: beginX, end: endX)
           .animate(animationController);
@@ -306,8 +573,11 @@ class _Dice extends State<Dice> with TickerProviderStateMixin {
                 Tween<double>(begin: beginY, end: endY).animate(moveAnimationController);
 */
 
+      Logger().e('begin ${beginX}  $beginY   |   end $endX   $endY');
       beginX = endX;
       beginY = endY;
+
+
 
       if (animationController.isDismissed) {
         animationController.forward();
@@ -322,40 +592,6 @@ class _Dice extends State<Dice> with TickerProviderStateMixin {
   }
 
 
-  dynamic _diceWidth(dynamic y) {
-    Logger().d("_diceWidth ${y} >= ${(mapXsize - _size )}");
-    Logger().d("_diceWidth ${mapXsize} ");
-    if (y >= (mapXsize )) {
-      Logger().d("_diceWidth 1 ${mapXsize}  ");
-     // var w = mapXsize - (y - mapXsize);
-      return mapXsize - (y - mapXsize);
-    }else if (y < _size ) {
-      Logger().d("_diceWidth 2 ${mapXsize + _size}   ");
-      //var w = _size - y;
-      return _size - y + _size;
-      //return _size ;
-    }else{
-      Logger().d("_diceWidth 3 ${y}");
-      return y;
-    }
-
-  }
-
-  dynamic _diceHeight(dynamic x) {
-    Logger().d("_diceHeight ${x} >= ${(mapYsize - _size )}");
-    Logger().d("_diceHeight ${mapYsize}  ");
-    if (x >= (mapYsize )) {
-      Logger().d("_diceHeight 1 ${mapYsize} ${mapYsize - ( x - mapYsize)} ");
-      return mapYsize - ( x - mapYsize);
-    }
-    if (x <= _size ) {
-      Logger().d("_diceHeight 2 ${mapYsize + _size}  ");
-      return _size -x +_size ;
-    }
-
-    Logger().d("_diceHeight 3 $x");
-    return x;
-  }
 }
 
 int front(double x, double y, double z) {

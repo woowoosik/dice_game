@@ -4,12 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:logger_plus/logger_plus.dart';
 
+import 'color.dart';
+
 class ScoreDice extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return _ScoreDice();
   }
 }
+
 
 class _ScoreDice extends State<ScoreDice> {
   var controller = Get.put(Controller());
@@ -18,25 +21,27 @@ class _ScoreDice extends State<ScoreDice> {
   Widget build(BuildContext context) {
     width = MediaQuery.sizeOf(context).width;
 
-    return GetBuilder<Controller>(builder: (_) {
-      return Stack(
-        children: [
-          Row(
-            children: [
-              for (var i = 0; i < 5; i++) ...[
-                Padding(
-                  padding: EdgeInsets.all(1),
-                  child: Image.asset(
-                    dice(controller.list[i]),
-                    width: width / 5 - 2,
-                    height: width / 5 - 2,
+    return Expanded(
+        child: Container(
+          color: SCORE_DICE,
+         // height: MediaQuery.sizeOf(context).height - MediaQuery.paddingOf(context).top,
+          child: GetBuilder<Controller>(builder: (_) {
+            return Row(
+              children: [
+                for (var i = 0; i < 5; i++) ...[
+                  Padding(
+                    padding: EdgeInsets.all(1),
+                    child: Image.asset(
+                      dice(controller.list[i]),
+                      width: width / 5 - 2,
+                      height: width / 5 - 2,
+                    ),
                   ),
-                ),
 
+                ],
               ],
-            ],
-          ),
-          /*Visibility(
+            );
+            /*Visibility(
             visible: controller.scoreVisible,
             child: Container(
                 width: width,
@@ -53,9 +58,10 @@ class _ScoreDice extends State<ScoreDice> {
               ),
             ),
           ),*/
-        ],
-      );
-    });
+            ;
+          }),
+        ),
+    );
   }
 }
 

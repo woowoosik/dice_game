@@ -11,6 +11,7 @@ import 'dice.dart';
 
 void main() => runApp(
     GetMaterialApp(
+        debugShowCheckedModeBanner: false,
         home:
         Scaffold(
             body: Column(

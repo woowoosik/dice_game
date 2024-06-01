@@ -50,7 +50,7 @@ class _Cube extends State<Cube> with TickerProviderStateMixin {
 
     //diceFront(widget.x,widget.y,-_halfPi + widget.y, _topBottom, _northSouth, _eastWest);
     // diceFront(widget.x,widget.y,-_halfPi + widget.y, _topBottom, _northSouth, _eastWest);
-    Logger().d('${diceFront(widget.x,widget.y,-_halfPi + widget.y, _topBottom, _northSouth, _eastWest)}');
+   // Logger().d('${diceFront(widget.x,widget.y,-_halfPi + widget.y, _topBottom, _northSouth, _eastWest)}');
 
 
     // Logger().d('${_topBottom}   $_northSouth   $_eastWest');
@@ -97,7 +97,7 @@ class _Cube extends State<Cube> with TickerProviderStateMixin {
         int diceImage = 1,
       }) {
 
-    Logger().d('${xRot}  $yRot  $zRot');
+    //Logger().d('${xRot}  $yRot  $zRot  $moveZ');
 
     return Transform(
         alignment: Alignment.center,

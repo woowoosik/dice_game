@@ -52,10 +52,16 @@ class _Board extends State<Board> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+
     return SafeArea(
+      bottom: false,
       child: Container(
         color: BOARD_COLOR,
-        height: MediaQuery.sizeOf(context).height * 0.85,
+        height: MediaQuery.sizeOf(context).height * 0.8
+
+        /* MediaQuery.sizeOf(context).height
+            -MediaQuery.paddingOf(context).top
+            -MediaQuery.sizeOf(context).width/5 -5 */,
         child: Stack(
           children: [
             Visibility(
