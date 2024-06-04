@@ -20,48 +20,13 @@ class _Board extends State<Board> with TickerProviderStateMixin {
 
   var controller = Get.put(Controller());
 
-/*
-
-  late var animationController;
-  late var animation;
-
-  @override
-  void initState() {
-
-    animationController = AnimationController(
-      duration: const Duration(seconds: 2),
-      vsync: this,
-    )..repeat(reverse: true);
-    animation = Tween<Offset>(
-      begin: Offset.zero,
-      end: const Offset(1.5, 0.0),
-    ).animate(CurvedAnimation(
-      parent: animationController,
-      curve: Curves.elasticIn,
-    ));
-
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    animationController.dispose();
-    super.dispose();
-  }
-*/
-
   @override
   Widget build(BuildContext context) {
-
     return SafeArea(
       bottom: false,
       child: Container(
         color: BOARD_COLOR,
-        height: MediaQuery.sizeOf(context).height * 0.8
-
-        /* MediaQuery.sizeOf(context).height
-            -MediaQuery.paddingOf(context).top
-            -MediaQuery.sizeOf(context).width/5 -5 */,
+        height: MediaQuery.sizeOf(context).height * 0.8,
         child: Stack(
           children: [
             Visibility(
@@ -98,8 +63,6 @@ class _Board extends State<Board> with TickerProviderStateMixin {
                     }),
               ),
             ),
-
-
             GetBuilder<Controller>(builder: (_) {
               return AnimatedOpacity(
                 opacity: controller.scoreVisible ? 1.0 : 0.0,
@@ -111,80 +74,42 @@ class _Board extends State<Board> with TickerProviderStateMixin {
                       alignment: Alignment.center,
                       width: MediaQuery.sizeOf(context).width,
                       height: MediaQuery.sizeOf(context).height * 0.15,
-                     /* decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            Colors.amber[800]!,
-                            Colors.amber[500]!,
-                            Colors.amber[200]!,
-                            Colors.amber[200]!,
-                            Colors.amber[500]!,
-                            Colors.amber[800]!,
-                          ],
+                      child: Text(
+                        '${controller.scoreText}',
+                        style: const TextStyle(
+                          fontSize: 40,
+                          color: Colors.purpleAccent,
+                          fontWeight: FontWeight.w600,
                         ),
-
-                      ),*/
-                        child: Text(
-                          '${controller.scoreText}',
-                          style: const TextStyle(
-                            fontSize: 40,
-                            color: Colors.purpleAccent,
-                            fontWeight: FontWeight.w600,
-                          ),
-
-                        ),
-
-                    ),
-                  ),
-                ),
-              );
-
-               /* Visibility(
-                visible: controller.scoreVisible,
-                child: Container(
-                  width: MediaQuery.sizeOf(context).width,
-                  height: MediaQuery.sizeOf(context).height * 0.75,
-                  child: Center(
-                    child: Text(
-                      '${controller.scoreText}',
-                      style: const TextStyle(
-                        fontSize: 40,
-                        color: Colors.black,
                       ),
                     ),
                   ),
                 ),
-              );*/
+              );
             }),
-
-
-
           ],
         ),
       ),
     );
   }
-
-
-
 }
-Color fontColor(String t){
 
-  if(t == '원페어' ){
+Color fontColor(String t) {
+  if (t == '원페어') {
     return color[0];
-  }else if(t=='투페어'){
+  } else if (t == '투페어') {
     return color[1];
-  }else if(t=='트리플'){
+  } else if (t == '트리플') {
     return color[2];
-  }else if(t=='포카드'){
+  } else if (t == '포카드') {
     return color[3];
-  }else if(t=='풀하우스'){
+  } else if (t == '풀하우스') {
     return color[4];
-  }else if(t=='스트레이트'){
+  } else if (t == '스트레이트') {
     return color[5];
-  }else if(t=='GREAT!!!'){
+  } else if (t == 'GREAT!!!') {
     return color[6];
-  }else{
+  } else {
     return color[7];
   }
 }

@@ -24,7 +24,6 @@ class _ScoreDice extends State<ScoreDice> {
     return Expanded(
         child: Container(
           color: SCORE_DICE,
-         // height: MediaQuery.sizeOf(context).height - MediaQuery.paddingOf(context).top,
           child: GetBuilder<Controller>(builder: (_) {
             return Row(
               children: [
@@ -41,24 +40,6 @@ class _ScoreDice extends State<ScoreDice> {
                 ],
               ],
             );
-            /*Visibility(
-            visible: controller.scoreVisible,
-            child: Container(
-                width: width,
-                height: width/5,
-                color: Colors.lightBlue,
-                child: Center(
-                  child: Text(
-                  '${controller.scoreText}',
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-            ),
-          ),*/
-            ;
           }),
         ),
     );
