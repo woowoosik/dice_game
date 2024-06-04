@@ -9,21 +9,17 @@ import 'package:logger_plus/logger_plus.dart';
 
 import 'dice.dart';
 
-void main() => runApp(
-    GetMaterialApp(
-        debugShowCheckedModeBanner: false,
-        home:
-        Scaffold(
-            body: Column(
-              children: [
-                // Expanded(child: Board(),),
-                Board(),
-                ScoreDice(),
-              ],
-            ),
-        )
-    )
-);
+void main() => runApp(GetMaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: Scaffold(
+      body: Column(
+        children: [
+          // Expanded(child: Board(),),
+          Board(),
+          ScoreDice(),
+        ],
+      ),
+    )));
 
 num map(num value,
         [num iStart = 0, num iEnd = pi * 2, num oStart = 0, num oEnd = 1.0]) =>
@@ -102,14 +98,7 @@ class CreateAppState extends State<CreateApp> with TickerProviderStateMixin {
       setState(() {});
     });
 
-    return /*SafeArea(
-        child: Column(
-          children: [
-            for(var i =0; i<5; i++)...[
-
-              SizedBox(height: 40,),
-            */
-        Container(
+    return Container(
       color: Colors.redAccent,
       height: 800,
       width: 800,
@@ -300,14 +289,7 @@ class CreateAppState extends State<CreateApp> with TickerProviderStateMixin {
           ),
         ),
       ]),
-    )
-        /*        ]
-          ],
-        )
     );
-*/
-
-        ;
   }
 
   @override
