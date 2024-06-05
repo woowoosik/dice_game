@@ -55,20 +55,6 @@ class _Dice extends State<Dice> with TickerProviderStateMixin {
 
     diceRoll();
 
-/*
-
-    moveAnimationController = AnimationController(
-      duration: const Duration(microseconds: 1000000),
-      vsync: this,
-    );
-
-    moveAnimationX =
-        Tween<double>(begin: moveBeginX, end: moveEndX).animate(moveAnimationController);
-    moveAnimationY =
-        Tween<double>(begin: moveBeginY, end: moveEndY).animate(moveAnimationController);
-
-*/
-
     super.initState();
   }
 
